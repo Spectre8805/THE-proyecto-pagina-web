@@ -1,0 +1,3 @@
+[build]
+  command = "npm --prefix client ci --include=dev && npm --prefix client run build"
+  publish = "client/dist"
