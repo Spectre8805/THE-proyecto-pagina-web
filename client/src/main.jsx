@@ -13,7 +13,7 @@ function ContactForm() {
   async function submit(e) {
     e.preventDefault(); setBusy(true); setStatus({ type: "", text: "" });
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("https://the-proyecto-pagina-web.onrender.com/api/contact", {
         method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form)
       });
       const data = await response.json();
@@ -50,7 +50,7 @@ function Assistant() {
     const q = question.trim(); if (!q || busy) return;
     setMessages(m => [...m, { role: "user", content: q }]); setQuestion(""); setBusy(true);
     try {
-      const response = await fetch("/api/assistant", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: q }) });
+      const response = await fetch("https://the-proyecto-pagina-web.onrender.com/api/assistant", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: q }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "No se pudo obtener respuesta.");
       setMessages(m => [...m, { role: "assistant", content: data.reply }]);
@@ -78,13 +78,13 @@ function AdminPanel() {
   async function login(e) {
     e.preventDefault(); setBusy(true); setError("");
     try {
-      const r = await fetch("/api/admin/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, password }) });
+      const r = await fetch("https://the-proyecto-pagina-web.onrender.com/api/admin/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, password }) });
       const data = await r.json(); if (!r.ok) throw new Error(data.error || "No se pudo iniciar sesión.");
       setToken(data.token); await loadMessages(data.token);
     } catch (err) { setError(err.message); } finally { setBusy(false); }
   }
   async function loadMessages(t = token) {
-    const r = await fetch("/api/admin/messages", { headers: { Authorization: `Bearer ${t}` } });
+    const r = await fetch("https://the-proyecto-pagina-web.onrender.com/api/admin/messages", { headers: { Authorization: `Bearer ${t}` } });
     const data = await r.json(); if (!r.ok) throw new Error(data.error || "No se pudieron cargar los mensajes.");
     setMessages(data.messages || []);
   }
