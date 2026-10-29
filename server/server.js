@@ -115,9 +115,5 @@ app.post("/api/assistant", rateLimit({ windowMs: 60 * 1000, limit: 20 }), async 
 });
 
 // In production, serve the compiled React app from client/dist.
-if (process.env.NODE_ENV === "production") {
-  const dist = path.resolve(__dirname, "../client/dist");
-  app.use(express.static(dist));
-  app.get("*", (req, res, next) => req.path.startsWith("/api/") ? next() : res.sendFile(path.join(dist, "index.html")));
-}
+
 app.listen(PORT, () => console.log(`Eco-Snacks API disponible en http://localhost:${PORT}`));
